@@ -33,4 +33,9 @@ public class UserService {
         }
         return null; //Login Inválido!
     }
+
+    public boolean validateSession(String sessionId){
+        return sessionMap.containsKey(sessionId);
+    }
+
 }
