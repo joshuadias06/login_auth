@@ -32,7 +32,8 @@ public class UserService {
     }
 
     public String loginUser(String username, String password){
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado com o nome de usuário fornecido."));
         if(user == null && user.getPassword().equals(password)){
             String sessionId = "SESSION-" + user.getId();
             sessionMap.put(sessionId, user);
