@@ -2,10 +2,7 @@ package com.login.desafio.klaston.controllers;
 
 import com.login.desafio.klaston.models.User;
 import com.login.desafio.klaston.services.UserService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
@@ -20,6 +17,15 @@ public class AuthController {
     @PostMapping("/register")
     public String register(@RequestBody User user){
         return userService.registerUser(user);
+    }
+
+    @PostMapping("/login")
+    public String login (@RequestParam String username, @RequestParam String password){
+        String sessionId = userService.loginUser(username, password);
+        if(sessionId != null){
+            return "Login bem sucedido! Session ID: " + sessionId;
+        }
+        return "Acesso negado! Sessao Invalida";
     }
 
 }
