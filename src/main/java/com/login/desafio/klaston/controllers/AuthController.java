@@ -28,4 +28,12 @@ public class AuthController {
         return "Acesso negado! Sessao Invalida";
     }
 
+    @GetMapping("/protected")
+    public String protectedEndpoint(@RequestParam String sessionId){
+        if(userService.validateSession(sessionId)){
+            return "Voce acessou um endpoint protegido!"
+        }
+        return "Acesso negado! Sessao Invalida";
+    }
+
 }
