@@ -24,4 +24,13 @@ public class UserService {
         return "User created";
     }
 
+    public String loginUser(String username, String password){
+        User user = userRepository.findByUsername(username);
+        if(user == null && user.getPassword().equals(password)){
+            String sessionId = "SESSION-" + user.getId();
+            sessionMap.put(sessionId, user);
+            return sessionId;
+        }
+        return null; //Login Inválido!
+    }
 }
