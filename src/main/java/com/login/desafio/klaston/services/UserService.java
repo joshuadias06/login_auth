@@ -16,6 +16,12 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    
+    public String registerUser(User user){
+        if(userRepository.findByUsername(user.getUsername()) != null){
+            return "User already exists";
+        }
+        userRepository.save(user);
+        return "User created";
+    }
 
 }
