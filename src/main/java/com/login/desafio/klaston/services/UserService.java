@@ -24,7 +24,7 @@ public class UserService {
     }
 
     public String registerUser(User user){
-        if(userRepository.findByUsername(user.getUsername()) != null){
+        if(userRepository.findByUsername(user.getUsername()).isPresent()){
             return "User already exists";
         }
         userRepository.save(user);
@@ -34,7 +34,7 @@ public class UserService {
     public String loginUser(String username, String password){
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado com o nome de usuário fornecido."));
-        if(user == null && user.getPassword().equals(password)){
+        if(user.getPassword().equals(password)){
             String sessionId = "SESSION-" + user.getId();
             sessionMap.put(sessionId, user);
             return sessionId;
