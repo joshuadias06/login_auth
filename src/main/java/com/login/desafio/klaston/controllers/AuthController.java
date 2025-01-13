@@ -31,9 +31,14 @@ public class AuthController {
     @GetMapping("/protected")
     public String protectedEndpoint(@RequestParam String sessionId){
         if(userService.validateSession(sessionId)){
-            return "Voce acessou um endpoint protegido!"
+            return "Voce acessou um endpoint protegido!";
         }
         return "Acesso negado! Sessao Invalida";
     }
 
+    @PostMapping("/logout")
+    public String logout(@RequestParam String sessionId) {
+        userService.logoutUser(sessionId);
+        return "Logout bem-sucedido!";
+    }
 }
