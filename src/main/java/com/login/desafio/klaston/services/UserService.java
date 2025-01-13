@@ -9,6 +9,13 @@ import java.util.*;
 @Service
 public class UserService {
 
+    /*
+    * Function -> registerUser
+    * Function -> loginUSer
+    * Function -> validateSession
+    * Function -> logoutUser
+    * */
+
     private final UserRepository userRepository;
     private final Map<String, User> sessionMap = new HashMap<>();
 
@@ -38,4 +45,7 @@ public class UserService {
         return sessionMap.containsKey(sessionId);
     }
 
+    public void logoutUser(String sessionId){
+        sessionMap.remove(sessionId);
+    }
 }
