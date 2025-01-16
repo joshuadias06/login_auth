@@ -1,4 +1,4 @@
-package com.login.desafio.klaston.utils;
+package com.login.desafio.klaston.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
