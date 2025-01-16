@@ -1,15 +1,21 @@
 package com.login.desafio.klaston.models;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import jakarta.persistence.*;
 import lombok.*;
 
-
+import java.util.Collection;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "app_user")
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -19,28 +25,30 @@ public class User {
     private String username;
     private String password;
 
-    public Long getId() {
-        return id;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        // Retorna o papel do usuário (por exemplo, "USER", "ADMIN", etc.)
+        return List.of(() -> "ROLE_USER");  // Exemplo simples de papel fixo
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    @Override
+    public boolean isAccountNonExpired() {
+        return true; // Conta nunca expira
     }
 
-    public String getUsername() {
-        return username;
+    @Override
+    public boolean isAccountNonLocked() {
+        return true; // Conta não é bloqueada
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true; // Credenciais nunca expiram
     }
 
-    public String getPassword() {
-        return password;
+    @Override
+    public boolean isEnabled() {
+        return true; // Conta está habilitada
     }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
 }
