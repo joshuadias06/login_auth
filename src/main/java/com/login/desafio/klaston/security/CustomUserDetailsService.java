@@ -1,6 +1,5 @@
 package com.login.desafio.klaston.security;
 
-import com.login.desafio.klaston.models.User;  // Sua classe de modelo User
 import com.login.desafio.klaston.repositories.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
