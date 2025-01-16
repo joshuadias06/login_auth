@@ -72,6 +72,14 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>5.3.27</version> <!-- ou a versão do Spring que você estiver utilizando -->
 		</dependency>
+
+		<dependency>
+			<groupId>jakarta.servlet</groupId>
+			<artifactId>jakarta.servlet-api</artifactId>
+			<version>6.0.0</version> <!-- Certifique-se de usar a versão correta -->
+			<scope>provided</scope>
+		</dependency>
+
 		<!-- Test Dependencies -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
