@@ -16,13 +16,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // Nova forma de desativar CSRF
+                .csrf(csrf -> csrf.disable()) // Desativa CSRF
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll() // Permitir endpoints de autenticação
-                        .anyRequest().authenticated() // Exigir autenticação para o restante
+                        .requestMatchers("/api/auth/**").permitAll() // Permite endpoints públicos
+                        .anyRequest().authenticated() // Resto exige autenticação
                 )
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Sem estado (JWT)
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // JWT
                 );
         return http.build();
     }
@@ -33,7 +33,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
-        return authConfig.getAuthenticationManager();
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
     }
 }
