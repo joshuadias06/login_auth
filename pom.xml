@@ -67,6 +67,14 @@
 			<scope>runtime</scope>
 		</dependency>
 
+		<!-- Servlet API (para filtros) -->
+		<dependency>
+			<groupId>jakarta.servlet</groupId>
+			<artifactId>jakarta.servlet-api</artifactId>
+			<version>5.0.0</version> <!-- Ou a versão que você está utilizando -->
+			<scope>provided</scope>
+		</dependency>
+
 		<!-- Test Dependencies -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

@@ -9,6 +9,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 public class SecurityConfig {
@@ -16,13 +17,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // Desativa CSRF
+                .csrf(csrf -> csrf.disable())  // Desativa CSRF para JWT
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll() // Permite endpoints públicos
-                        .anyRequest().authenticated() // Resto exige autenticação
+                        .requestMatchers("/api/auth/**").permitAll()  // Permite acesso aos endpoints públicos
+                        .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()  // Usa AntPathRequestMatcher para o H2 Console
+                        .anyRequest().authenticated()  // Qualquer outra requisição exige autenticação
                 )
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // JWT
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)  // Define autenticação stateless (JWT)
                 );
         return http.build();
     }
