@@ -1,4 +1,4 @@
-package com.login.desafio.klaston.security;
+package com.login.desafio.klaston.services;
 
 import com.login.desafio.klaston.repositories.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
