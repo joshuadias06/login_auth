@@ -10,12 +10,15 @@ document.getElementById('registerForm').addEventListener('submit', function(even
     const username = document.getElementById('regUsername').value;
     const password = document.getElementById('regPassword').value;
 
+    // Fazendo a requisição de registro
     fetch('http://localhost:8080/auth/register', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken'), // Enviando o token JWT se ele estiver armazenado
         },
         body: JSON.stringify({ username, password }),
+        credentials: 'include' // Para enviar credenciais (se necessário)
     })
         .then(response => response.text())
         .then(message => {
