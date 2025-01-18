@@ -17,6 +17,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @Configuration
 public class SecurityConfig {
 
@@ -31,17 +33,17 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())  // Desativa CSRF para JWT
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/h2-console/**").permitAll()  // Permite acesso ao console H2
-                        .requestMatchers("/api/auth/**").permitAll()  // Permite acesso aos endpoints públicos da API
-                        .anyRequest().authenticated()  // Qualquer outra requisição exige autenticação
+                        .requestMatchers("/h2-console/**").permitAll()
+                        .requestMatchers("/auth/**").permitAll()
+                        .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)  // Define autenticação stateless (JWT)
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(jwtUtil, customUserDetailsService), UsernamePasswordAuthenticationFilter.class)
-                .cors(cors -> cors.configurationSource(corsConfigurationSource())); // Configura CORS explicitamente
+                .cors(withDefaults()); // Configuração de CORS
 
         return http.build();
     }
@@ -49,18 +51,13 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("http://localhost:63342"); // Permite o domínio do front-end
-        configuration.addAllowedMethod("GET");
-        configuration.addAllowedMethod("POST");
-        configuration.addAllowedMethod("PUT");
-        configuration.addAllowedMethod("DELETE");
-        configuration.addAllowedMethod("OPTIONS");
-        configuration.setAllowCredentials(true);  // Permite o envio de credenciais (cookies)
-        configuration.addAllowedHeader("*");  // Permite todos os cabeçalhos
+        configuration.addAllowedOrigin("http://localhost:63342"); // Domínio permitido
+        configuration.addAllowedMethod("*"); // Permite todos os métodos (GET, POST, etc.)
+        configuration.addAllowedHeader("*"); // Permite todos os cabeçalhos
+        configuration.setAllowCredentials(true); // Permite credenciais
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);  // Aplica a configuração para todas as URLs
-
+        source.registerCorsConfiguration("/**", configuration);
         return source;
     }
 
