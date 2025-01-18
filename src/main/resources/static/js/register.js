@@ -1,11 +1,9 @@
-// Função para exibir mensagens
 function displayMessage(message, color) {
     const messageDiv = document.getElementById('message');
     messageDiv.textContent = message;
     messageDiv.style.color = color;
 }
 
-// Formulário de registro
 document.getElementById('registerForm').addEventListener('submit', function(event) {
     event.preventDefault();
 
