@@ -52,8 +52,9 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:63342")); // Permite apenas o domínio do front-end
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // Métodos permitidos
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type")); // Cabeçalhos permitidos
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Origin", "Accept")); // Cabeçalhos permitidos
         configuration.setAllowCredentials(true); // Permite envio de credenciais (cookies, headers)
+        configuration.setMaxAge(3600L);  // O cache CORS pode durar até 1 hora (3600 segundos)
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration); // Aplica a configuração para todas as rotas
