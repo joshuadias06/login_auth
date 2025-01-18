@@ -17,7 +17,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import static org.springframework.security.config.Customizer.withDefaults;
+import java.util.Arrays;
 
 @Configuration
 public class SecurityConfig {
@@ -33,17 +33,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
+                .csrf(csrf -> csrf.disable())  // Desativa CSRF para APIs REST
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/h2-console/**").permitAll()
-                        .requestMatchers("/auth/**").permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers("/auth/**").permitAll()  // Permite acesso público aos endpoints de autenticação
+                        .anyRequest().authenticated()  // Qualquer outro endpoint requer autenticação
                 )
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)  // Define autenticação stateless
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(jwtUtil, customUserDetailsService), UsernamePasswordAuthenticationFilter.class)
-                .cors(withDefaults()); // Configuração de CORS
+                .cors(cors -> cors.configurationSource(corsConfigurationSource())); // Configura o CORS
 
         return http.build();
     }
@@ -51,13 +50,14 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("http://localhost:63342"); // Domínio permitido
-        configuration.addAllowedMethod("*"); // Permite todos os métodos (GET, POST, etc.)
-        configuration.addAllowedHeader("*"); // Permite todos os cabeçalhos
-        configuration.setAllowCredentials(true); // Permite credenciais
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:63342")); // Permite apenas o domínio do front-end
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // Métodos permitidos
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type")); // Cabeçalhos permitidos
+        configuration.setAllowCredentials(true); // Permite envio de credenciais (cookies, headers)
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        source.registerCorsConfiguration("/**", configuration); // Aplica a configuração para todas as rotas
+
         return source;
     }
 
