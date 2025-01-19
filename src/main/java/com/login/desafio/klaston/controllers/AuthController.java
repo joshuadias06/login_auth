@@ -2,6 +2,7 @@ package com.login.desafio.klaston.controllers;
 
 import com.login.desafio.klaston.models.User;
 import com.login.desafio.klaston.services.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -40,5 +41,11 @@ public class AuthController {
     public String logout(@RequestParam String sessionId) {
         userService.logoutUser(sessionId);
         return "Logout bem-sucedido!";
+    }
+
+    @CrossOrigin(origins = "http://localhost:63342")
+    @RequestMapping(method = RequestMethod.OPTIONS, path = "/**")
+    public ResponseEntity<Void> handleOptions() {
+        return ResponseEntity.ok().build();
     }
 }
