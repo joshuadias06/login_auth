@@ -2,6 +2,7 @@ package com.login.desafio.klaston.services;
 
 import com.login.desafio.klaston.models.User;
 import com.login.desafio.klaston.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,5 +20,17 @@ public class UserService {
 
     private final Map<Long, User> userStore = new HashMap<>();
     private final PasswordEncoder passwordEncoder;
-    
+
+    @Autowired
+    public UserService(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    public User register(User user) {
+        user.setId((long) (userStore.size() + 1));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userStore.put(user.getId(), user);
+        return user;
+    }
+
 }
