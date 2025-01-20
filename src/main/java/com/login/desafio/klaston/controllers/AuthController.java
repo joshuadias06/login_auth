@@ -20,32 +20,4 @@ public class AuthController {
         return userService.registerUser(user);
     }
 
-    @PostMapping("/login")
-    public String login (@RequestParam String username, @RequestParam String password){
-        String sessionId = userService.loginUser(username, password);
-        if(sessionId != null){
-            return "Login bem sucedido! Session ID: " + sessionId;
-        }
-        return "Acesso negado! Sessao Invalida";
-    }
-
-    @GetMapping("/protected")
-    public String protectedEndpoint(@RequestParam String sessionId){
-        if(userService.validateSession(sessionId)){
-            return "Voce acessou um endpoint protegido!";
-        }
-        return "Acesso negado! Sessao Invalida";
-    }
-
-    @PostMapping("/logout")
-    public String logout(@RequestParam String sessionId) {
-        userService.logoutUser(sessionId);
-        return "Logout bem-sucedido!";
-    }
-
-    @CrossOrigin(origins = "http://localhost:63342")
-    @RequestMapping(method = RequestMethod.OPTIONS, path = "/**")
-    public ResponseEntity<Void> handleOptions() {
-        return ResponseEntity.ok().build();
-    }
 }
