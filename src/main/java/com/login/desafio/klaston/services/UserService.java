@@ -33,4 +33,13 @@ public class UserService {
         return user;
     }
 
+    public User update(Long id, User user) {
+        if (!userStore.containsKey(id)) {
+            throw new NoSuchElementException("User not found");
+        }
+        user.setId(id);
+        userStore.put(id, user);
+        return user;
+    }
+
 }
