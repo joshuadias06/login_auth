@@ -42,4 +42,12 @@ public class UserService {
         return user;
     }
 
+    public void delete(Long id) {
+        if (!userStore.containsKey(id)) {
+            throw new NoSuchElementException("User not found");
+        }
+        userStore.remove(id);
+    }
+
+
 }
