@@ -19,4 +19,9 @@ public class AuthController {
     public ResponseEntity<User> register(@RequestBody User user) {
         return ResponseEntity.ok(userService.register(user));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<User> update(@PathVariable Long id, @RequestBody User user) {
+        return ResponseEntity.ok(userService.update(id, user));
+    }
 }
