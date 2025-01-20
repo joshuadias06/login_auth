@@ -1,7 +1,6 @@
 package com.login.desafio.klaston.services;
 
 import com.login.desafio.klaston.models.User;
-import com.login.desafio.klaston.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -49,5 +48,7 @@ public class UserService {
         userStore.remove(id);
     }
 
-
+    public List<User> getAllUsers() {
+        return new ArrayList<>(userStore.values());
+    }
 }
